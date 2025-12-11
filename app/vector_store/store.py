@@ -1,3 +1,4 @@
+# app/vector_store/store.py
 import faiss
 import numpy as np
 from typing import List, Tuple
@@ -13,6 +14,11 @@ class VectorStore:
         self.dim = dim
         self.index = faiss.IndexFlatL2(dim)  # Simple L2 distance index
         self.metadata_store: List[DocumentChunk] = []
+
+    @property
+    def size(self) -> int:
+        """Return number of vectors stored in FAISS."""
+        return self.index.ntotal
 
     def add(self, vectors: np.ndarray, chunks: List[DocumentChunk]):
         """

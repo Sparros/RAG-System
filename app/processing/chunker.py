@@ -1,3 +1,4 @@
+# app/processing/chunker.py
 from typing import List, Tuple
 import uuid
 
@@ -48,6 +49,14 @@ def chunk_text(
 
     return chunks
 
+def safe_page(page_number):
+    if isinstance(page_number, int):
+        return page_number
+    if isinstance(page_number, str):
+        if page_number.isdigit():
+            return int(page_number)
+        return None
+    return None
 
 def chunk_document_pages(
     pages: List[Tuple[int | str, str]],
@@ -59,7 +68,7 @@ def chunk_document_pages(
 
     output = []
     for page_number, text in pages:
-        p = int(page_number) if isinstance(page_number, (int, str)) else None
+        p = safe_page(page_number)
 
         page_chunks = chunk_text(
             text=text,

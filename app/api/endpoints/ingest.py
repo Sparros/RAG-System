@@ -19,6 +19,7 @@ class IngestResponse(BaseModel):
     document_id: str
     source: str
     num_chunks: int
+    vector_store_size: int
 
 
 @router.post("/load_documents", response_model=IngestResponse)
@@ -64,4 +65,5 @@ async def load_documents(
         document_id=document_id,
         source=file.filename,
         num_chunks=len(chunks),
+        vector_store_size=vector_store.size
     )

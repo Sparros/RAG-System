@@ -1,3 +1,0 @@
-A transformer model uses attention mechanisms to interpret sequences.
-Transformers power many modern large language models.
-They can process long-range dependencies efficiently.
