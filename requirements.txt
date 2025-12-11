@@ -1,13 +1,8 @@
 fastapi[standard]
 pypdf
 pytest
-
-
-pydantic
-python-multipart
 faiss-cpu
 sentence-transformers
-python-dotenv
+pydantic
 requests
-numpy
-pandas
+

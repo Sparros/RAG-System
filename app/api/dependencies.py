@@ -1,3 +1,4 @@
+# app/api/dependencies.py
 from app.embedding.embedder import Embedder
 from app.vector_store.store import VectorStore
 from app.retrieval.retriever import Retriever
@@ -7,10 +8,25 @@ from app.rag.pipeline import RAGPipeline
 
 
 # Global singletons (optional but recommended)
-_embedder = None
-_vector_store = None
-_rag_pipeline = None
+_embedder: Embedder | None = None
+_vector_store: VectorStore | None = None
+_rag_pipeline: RAGPipeline | None = None
 
+def get_embedder() -> Embedder:
+    global _embedder
+    if _embedder is None:
+        _embedder = Embedder()
+    return _embedder
+
+
+def get_vector_store() -> VectorStore:
+    global _vector_store
+    if _vector_store is None:
+        embedder = get_embedder()
+        _vector_store = VectorStore(dim=embedder.embedding_dimension)
+        # Optional: load existing index here
+        # _vector_store.load("faiss.index", "metadata.pkl")
+    return _vector_store
 
 def get_rag_pipeline() -> RAGPipeline:
     """
