@@ -10,7 +10,9 @@ from pydantic import BaseModel
 from app.api.dependencies import get_embedder, get_vector_store
 from app.embedding.embedder import Embedder
 from app.vector_store.store import VectorStore
-from app.processing.ingestion_service import ingest_document  # you already have this
+from app.processing.ingestion_service import ingest_document  
+from app.processing.doc_registry import register_document
+from app.core.settings import ensure_dirs, FAISS_INDEX_PATH, FAISS_META_PATH
 
 router = APIRouter()
 
@@ -59,7 +61,15 @@ async def load_documents(
     # 3) Add to vector store
     vector_store.add(vectors, chunks)
 
-    # (Optional) Later we can call vector_store.save(...) here for persistence
+    ensure_dirs()
+    vector_store.save(str(FAISS_INDEX_PATH), str(FAISS_META_PATH))
+
+    
+    register_document(
+        document_id=document_id,
+        source=file.filename,
+        num_chunks=len(chunks),
+    )
 
     return IngestResponse(
         document_id=document_id,

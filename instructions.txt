@@ -1,0 +1,22 @@
+Start local llm: 
+ollama run phi3
+Start server:
+
+uvicorn app.main:app --reload
+
+
+Ingest a doc:
+
+Swagger: POST /documents/load_documents
+
+Check persistence files were created:
+
+data/index/faiss.index
+
+data/index/metadata.pkl
+
+data/documents.json
+
+List documents:
+
+Swagger: GET /documents/
