@@ -13,7 +13,6 @@ class Embedder:
 
     def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
         self.model = SentenceTransformer(model_name)
-        # FIX: store the embedding dimension so vector store knows it
         self.embedding_dimension = self.model.get_sentence_embedding_dimension()
 
     def embed_text(self, text: str) -> np.ndarray:

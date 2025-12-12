@@ -1,0 +1,12 @@
+{
+  "aspirin": "aspirin.txt",
+  "neural_network": "bio_neural_network.txt",
+  "fastapi": "prog_fastapi.txt",
+  "docker": "prog_docker.txt",
+  "glorious_revolution": "history_glorious_revolution.txt",
+  "newton": "history_newton.txt",
+  "compound_interest": "finance_compound_interest.txt",
+  "inflation": "finance_inflation.txt",
+  "habeas_corpus": "law_habeas_corpus.txt",
+  "http": "tech_http.txt"
+}

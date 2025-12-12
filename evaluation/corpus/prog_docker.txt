@@ -1,0 +1,9 @@
+Docker is a platform for developing, shipping, and running applications using containerization. Containers package an application together with its dependencies, libraries, and configuration files, allowing it to run consistently across different environments.
+
+A Docker container is created from an image, which defines the application’s runtime environment. Images are built using Dockerfiles, which specify a sequence of instructions for assembling the image. Containers are lightweight compared to virtual machines because they share the host operating system kernel while maintaining isolation.
+
+Docker simplifies deployment by eliminating differences between development, testing, and production environments. An application that runs inside a container on a developer’s machine can run the same way on a server or in the cloud.
+
+Docker supports orchestration and scaling through tools such as Docker Compose and Kubernetes. Docker Compose allows developers to define multi-container applications, while Kubernetes manages container scheduling, scaling, and fault tolerance across clusters.
+
+Docker is widely used in continuous integration and continuous deployment pipelines, where containers provide reproducible environments for testing and deployment. Its architecture enables faster iteration, improved portability, and better resource utilization.

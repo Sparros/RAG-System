@@ -30,8 +30,8 @@ def get_vector_store() -> VectorStore:
 
 def get_rag_pipeline() -> RAGPipeline:
     """
-    Builds or returns a cached RAGPipeline instance.
-    FastAPI will call this using dependency injection.
+    Production pipeline:
+    retrieval + LLM enabled
     """
     global _rag_pipeline
 

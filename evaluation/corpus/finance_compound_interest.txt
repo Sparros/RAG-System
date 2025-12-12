@@ -1,0 +1,5 @@
+Compound interest refers to the process by which interest is added to the principal of a loan or investment, so that future interest is earned on both the original amount and the accumulated interest. This effect causes wealth to grow at an accelerating rate over time.
+
+The formula for compound interest depends on the principal, interest rate, number of compounding periods, and time. Frequent compounding leads to greater total returns compared to simple interest.
+
+Compound interest plays a central role in savings, investments, and debt. It benefits long-term investors but can significantly increase the cost of loans if interest accumulates over time.

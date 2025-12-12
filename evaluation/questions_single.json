@@ -1,0 +1,68 @@
+[
+  {
+    "id": "aspirin_q1",
+    "question": "What is aspirin?",
+    "relevant_docs": ["bio_aspirin"],
+    "expected_keywords": ["acetylsalicylic acid", "NSAID", "pain", "fever", "inflammation"]
+  },
+  {
+    "id": "aspirin_q2",
+    "question": "What medical conditions is aspirin commonly used to treat?",
+    "relevant_docs": ["bio_aspirin"],
+    "expected_keywords": ["pain", "fever", "inflammation", "heart attacks", "strokes", "blood clots"]
+  },
+  {
+    "id": "nn_q1",
+    "question": "What is a neural network?",
+    "relevant_docs": ["bio_neural_network"],
+    "expected_keywords": ["neurons", "layers", "weights"]
+  },
+  {
+    "id": "fastapi_q1",
+    "question": "What is FastAPI used for?",
+    "relevant_docs": ["prog_fastapi"],
+    "expected_keywords": ["API", "Python", "ASGI", "web framework"]
+  },
+  {
+    "id": "docker_q1",
+    "question": "What problem does Docker solve?",
+    "relevant_docs": ["prog_docker"],
+    "expected_keywords": ["containers", "deployment", "environment"]
+  },
+  {
+    "id": "gr_q1",
+    "question": "What was the Glorious Revolution?",
+    "relevant_docs": ["history_glorious_revolution"],
+    "expected_keywords": ["1688", "James II", "William", "Parliament"]
+  },
+  {
+    "id": "newton_q1",
+    "question": "Who was Isaac Newton?",
+    "relevant_docs": ["history_newton"],
+    "expected_keywords": ["physicist", "mathematician", "scientist"]
+  },
+  {
+    "id": "ci_q1",
+    "question": "What is compound interest?",
+    "relevant_docs": ["finance_compound_interest"],
+    "expected_keywords": ["interest", "principal", "growth"]
+  },
+  {
+    "id": "inflation_q1",
+    "question": "What is inflation?",
+    "relevant_docs": ["finance_inflation"],
+    "expected_keywords": ["prices", "purchasing power"]
+  },
+  {
+    "id": "habeas_q1",
+    "question": "What is habeas corpus?",
+    "relevant_docs": ["law_habeas_corpus"],
+    "expected_keywords": ["detention", "court", "lawful"]
+  },
+  {
+    "id": "http_q1",
+    "question": "What is HTTP?",
+    "relevant_docs": ["tech_http"],
+    "expected_keywords": ["protocol", "web", "client", "server"]
+  }
+]

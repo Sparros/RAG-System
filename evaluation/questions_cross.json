@@ -1,0 +1,44 @@
+[
+  {
+    "id": "cross_1",
+    "question": "How did the Glorious Revolution influence the political environment during Isaac Newton’s lifetime?",
+    "relevant_docs": ["history_glorious_revolution", "history_newton"],
+    "expected_keywords": ["1688", "constitutional", "monarchy"]
+  },
+  {
+    "id": "cross_2",
+    "question": "How do FastAPI and Docker work together in modern application deployment?",
+    "relevant_docs": ["prog_fastapi", "prog_docker"],
+    "expected_keywords": ["API", "containers", "deployment"]
+  },
+  {
+    "id": "cross_3",
+    "question": "How does inflation affect compound interest over long periods?",
+    "relevant_docs": ["finance_inflation", "finance_compound_interest"],
+    "expected_keywords": ["purchasing power", "growth", "interest"]
+  },
+  {
+    "id": "cross_4",
+    "question": "How do neural networks relate to biological concepts used in medicine and neuroscience?",
+    "relevant_docs": ["bio_neural_network", "bio_aspirin"],
+    "expected_keywords": ["neurons", "biology"]
+  },
+  {
+    "id": "cross_5",
+    "question": "Why is HTTP important for APIs built with FastAPI?",
+    "relevant_docs": ["tech_http", "prog_fastapi"],
+    "expected_keywords": ["request", "response", "protocol"]
+  },
+  {
+    "id": "cross_6",
+    "question": "How does Docker support reproducible environments for web APIs?",
+    "relevant_docs": ["prog_docker", "prog_fastapi"],
+    "expected_keywords": ["containers", "consistency"]
+  },
+  {
+    "id": "cross_7",
+    "question": "Why are legal protections like habeas corpus important in constitutional systems that emerged after the Glorious Revolution?",
+    "relevant_docs": ["law_habeas_corpus", "history_glorious_revolution"],
+    "expected_keywords": ["rights", "Parliament", "law"]
+  }
+]

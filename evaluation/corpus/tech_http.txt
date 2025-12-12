@@ -1,0 +1,5 @@
+The Hypertext Transfer Protocol (HTTP) is an application-layer protocol used for transmitting data on the World Wide Web. It defines how clients, such as web browsers, communicate with servers.
+
+HTTP is based on a request-response model. Clients send requests specifying a method, such as GET or POST, and servers return responses containing status codes and content. Common status codes include 200 for success, 404 for not found, and 500 for server errors.
+
+HTTP is stateless, meaning each request is independent. Extensions such as cookies and headers allow servers to maintain session-like behavior. Modern versions of HTTP, including HTTP/2 and HTTP/3, improve performance through multiplexing and reduced latency.
