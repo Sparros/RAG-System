@@ -1,4 +1,4 @@
-## 📊 Retrieval Evaluation
+## Retrieval Evaluation
 
 This project includes a systematic evaluation of retrieval quality across multiple embedding models using standard information-retrieval metrics.  
 All experiments are run **without LLM generation enabled**, ensuring results reflect embedding and indexing performance only.
