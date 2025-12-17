@@ -3,9 +3,6 @@ from app.embedding.embedder import Embedder
 from app.vector_store.store import VectorStore
 from app.models.document_models import DocumentChunk
 
-print("LOADED RETRIEVER FROM:", __file__)
-print("Retriever defined?", "Retriever" in globals())
-
 class Retriever:
     """
     Combines embedding + vector search.
@@ -28,6 +25,3 @@ class Retriever:
         results = self.vector_store.search(q_vec, k=k)
 
         return results
-
-print("After class, Retriever defined?", "Retriever" in globals())
-print("Module path:", __name__)

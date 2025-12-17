@@ -1,17 +1,18 @@
 # evaluation/ingest_corpus.py
+
 from pathlib import Path
 import uuid
-from app.core.settings import FAISS_INDEX_PATH, FAISS_META_PATH
-from app.core.settings import ensure_dirs
 
-from app.api.dependencies import get_embedder, get_vector_store
+from app.embedding.embedder import Embedder
+from app.vector_store.store import VectorStore
 from app.processing.ingestion_service import ingest_document
 
 CORPUS_DIR = Path("evaluation/corpus")
 
-def ingest_all():
-    embedder = get_embedder()
-    vector_store = get_vector_store()
+
+def ingest_all(model_name: str) -> VectorStore:
+    embedder = Embedder(model_name=model_name)
+    vector_store = VectorStore(dim=embedder.embedding_dimension)
 
     for file_path in CORPUS_DIR.glob("*.txt"):
         document_id = str(uuid.uuid4())
@@ -28,16 +29,7 @@ def ingest_all():
         vectors = embedder.embed_chunks(chunks)
         vector_store.add(vectors, chunks)
 
-    # Persist index after ingestion
-    ensure_dirs()
-    vector_store.save(
-        str(FAISS_INDEX_PATH),
-        str(FAISS_META_PATH),
-    )
-
-
     print("\nIngestion complete.")
     print(f"Total vectors stored: {vector_store.size}")
 
-if __name__ == "__main__":
-    ingest_all()
+    return vector_store

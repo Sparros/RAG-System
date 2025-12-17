@@ -11,10 +11,17 @@ class Embedder:
     Loads once at startup and provides several embedding utilities.
     """
 
-    def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
+    def __init__(
+        self,
+        model_name: str = "sentence-transformers/all-MiniLM-L6-v2"
+    ):
+        self.model_name = model_name
         self.model = SentenceTransformer(model_name)
-        self.embedding_dimension = self.model.get_sentence_embedding_dimension()
 
+    @property
+    def embedding_dimension(self) -> int:
+        return self.model.get_sentence_embedding_dimension()
+    
     def embed_text(self, text: str) -> np.ndarray:
         """Embed a single string into a vector."""
         return np.array(self.model.encode(text, convert_to_numpy=True))
