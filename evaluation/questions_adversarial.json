@@ -1,0 +1,17 @@
+[
+  {
+    "id": "adv_q1",
+    "question": "What does this system rely on for consistency?",
+    "relevant_docs": ["prog_docker"]
+  },
+  {
+    "id": "adv_q2",
+    "question": "Why was this change considered important?",
+    "relevant_docs": ["history_glorious_revolution"]
+  },
+  {
+    "id": "adv_q3",
+    "question": "How does this affect long-term outcomes?",
+    "relevant_docs": ["finance_compound_interest", "finance_inflation"]
+  }
+]

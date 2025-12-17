@@ -1,0 +1,17 @@
+[
+  {
+    "id": "noise_q1",
+    "question": "wat is asprin used fr?",
+    "relevant_docs": ["bio_aspirin"]
+  },
+  {
+    "id": "noise_q2",
+    "question": "how fastapi diffrent from flask?",
+    "relevant_docs": ["prog_fastapi"]
+  },
+  {
+    "id": "noise_q3",
+    "question": "why does compund interest grow so quick?",
+    "relevant_docs": ["finance_compound_interest"]
+  }
+]
