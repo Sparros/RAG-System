@@ -1,3 +1,4 @@
+# app/llm/ollama_client.py
 import requests
 
 class OllamaClient:

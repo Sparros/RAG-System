@@ -34,22 +34,25 @@ class LLMGenerator:
         return "".join(parts)
 
     def build_prompt(self, query: str, context: str) -> str:
-        """
-        The final template sent to the LLM.
-        """
         return f"""
-Use only the following context to answer the question.
-If the answer is not explicitly stated, respond with:
-"I don't know based on the provided context."
+    You are answering questions using retrieved reference material.
 
-CONTEXT:
-{context}
+    Rules:
+    - Use ONLY the provided context.
+    - If the answer is not explicitly stated, say:
+    "I don't know based on the provided context."
+    - Every factual statement MUST include a citation in the form:
+    [source: filename]
 
-QUESTION:
-{query}
+    CONTEXT:
+    {context}
 
-ANSWER:
-""".strip()
+    QUESTION:
+    {query}
+
+    ANSWER:
+    """.strip()
+
 
     def generate_answer(self, query: str, chunks: List[DocumentChunk]) -> str:
         """

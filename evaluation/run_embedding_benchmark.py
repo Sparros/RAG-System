@@ -1,4 +1,6 @@
 # evaluation/run_embedding_benchmark.py
+import argparse
+
 from evaluation.embedding_models import EMBEDDING_MODELS
 from evaluation.run_retrieval_eval import evaluate, load_questions
 from evaluation.ingest_corpus import ingest_all
@@ -23,9 +25,16 @@ def summarize(eval_output):
     }
 
 
-
 if __name__ == "__main__":
-    USE_RERANKER = True  # Toggle reranker usage here
+    parser = argparse.ArgumentParser(description="Embedding retrieval benchmark")
+    parser.add_argument(
+        "--reranker",
+        action="store_true",
+        help="Enable cross-encoder reranking",
+    )
+
+    args = parser.parse_args()
+    USE_RERANKER = args.reranker
 
     single_questions = load_questions("evaluation/questions_single.json")
     cross_questions = load_questions("evaluation/questions_cross.json")
@@ -52,16 +61,11 @@ if __name__ == "__main__":
         results[name] = {}
 
         for k in KS:
-            single_eval = evaluate(single_questions, pipeline, k=k)
-            cross_eval = evaluate(cross_questions, pipeline, k=k)
-            adv_eval = evaluate(adversarial_questions, pipeline, k=k)
-            noisy_eval = evaluate(noisy_questions, pipeline, k=k)
-
             results[name][f"k={k}"] = {
-                "single": summarize(single_eval),
-                "cross": summarize(cross_eval),
-                "adversarial": summarize(adv_eval),
-                "noisy": summarize(noisy_eval),
+                "single": summarize(evaluate(single_questions, pipeline, k=k)),
+                "cross": summarize(evaluate(cross_questions, pipeline, k=k)),
+                "adversarial": summarize(evaluate(adversarial_questions, pipeline, k=k)),
+                "noisy": summarize(evaluate(noisy_questions, pipeline, k=k)),
             }
 
     print("\n=== FINAL SUMMARY ===")

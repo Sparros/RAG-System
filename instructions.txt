@@ -1,22 +1,20 @@
-Start local llm: 
+Start local llm in one terminal: 
 ollama run phi3
-Start server:
 
+(Optional) Start the API server
+Only needed if you want to test the FastAPI endpoints.
 uvicorn app.main:app --reload
 
+Run retrieval-only embedding benchmarks
+Without reranking:
+python -m evaluation.run_embedding_benchmark
+With reranking:
+python -m evaluation.run_embedding_benchmark --reranker
 
-Ingest a doc:
+Run end-to-end RAG evaluation (answer-level)
+Without reranking:
+python -m evaluation.run_rag_eval
+With reranking:
+python -m evaluation.run_rag_eval --reranker
 
-Swagger: POST /documents/load_documents
 
-Check persistence files were created:
-
-data/index/faiss.index
-
-data/index/metadata.pkl
-
-data/documents.json
-
-List documents:
-
-Swagger: GET /documents/
