@@ -68,4 +68,5 @@ class RAGPipeline:
         return {
             "answer": answer,
             "sources": sources,
+            "chunks": chunks,
         }

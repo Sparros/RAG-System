@@ -16,7 +16,6 @@ from app.llm.ollama_client import OllamaClient
 from app.rag.pipeline import RAGPipeline
 from app.retrieval.reranker import CrossEncoderReranker
 
-
 def run_rag_eval(questions, pipeline, k=3):
     outputs = []
 
@@ -32,7 +31,6 @@ def run_rag_eval(questions, pipeline, k=3):
         })
 
     return outputs
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="End-to-end RAG evaluation")

@@ -1,6 +1,6 @@
 # evaluation/metrics.py
 import re
-from typing import List, Dict
+from typing import List, Dict, Set
 
 
 # -----------------------------
@@ -8,13 +8,6 @@ from typing import List, Dict
 # -----------------------------
 
 def mean_reciprocal_rank(results: List[Dict]) -> float:
-    """
-    Computes Mean Reciprocal Rank (MRR).
-
-    results: list of dicts with keys:
-      - retrieved: list[str]
-      - expected: list[str]
-    """
     reciprocal_ranks = []
 
     for r in results:
@@ -33,9 +26,6 @@ def mean_reciprocal_rank(results: List[Dict]) -> float:
 
 
 def top1_accuracy(results: List[Dict]) -> float:
-    """
-    Percentage of queries where the top retrieved document is relevant.
-    """
     correct = 0
 
     for r in results:
@@ -52,9 +42,6 @@ def top1_accuracy(results: List[Dict]) -> float:
 # -----------------------------
 
 def citation_present_rate(outputs: List[Dict]) -> float:
-    """
-    Percentage of answers that include at least one citation marker.
-    """
     count = 0
     for o in outputs:
         if o.get("answer") and "[source:" in o["answer"].lower():
@@ -63,10 +50,6 @@ def citation_present_rate(outputs: List[Dict]) -> float:
 
 
 def keyword_coverage(outputs: List[Dict]) -> float:
-    """
-    Average fraction of expected keywords present in the answer.
-    Only applied when expected_keywords exist.
-    """
     scores = []
 
     for o in outputs:
@@ -84,29 +67,43 @@ def keyword_coverage(outputs: List[Dict]) -> float:
 
 
 # -----------------------------
-# Context overlap
+# Context overlap (grounding)
 # -----------------------------
 
 _STOPWORDS = {
     "the", "a", "an", "and", "or", "of", "to", "in", "on", "for", "with",
     "is", "are", "was", "were", "be", "by", "this", "that", "from", "as",
-    "it", "at", "which"
+    "it", "at", "which", "also", "has", "have"
 }
 
 
-def _normalize(text: str) -> List[str]:
+def _normalize(text: str) -> Set[str]:
     """
-    Lowercase, remove punctuation, split, and drop stopwords.
+    Normalize text into content-bearing tokens.
     """
+    # Remove citations like [1], (source: ...)
+    text = re.sub(r"\[[^\]]*\]|\([^\)]*\)", "", text)
+
+    # Lowercase
     text = text.lower()
-    text = re.sub(r"[^a-z0-9\s]", "", text)
-    tokens = text.split()
-    return [t for t in tokens if t not in _STOPWORDS]
+
+    # Remove punctuation
+    text = re.sub(r"[^a-z0-9\s]", " ", text)
+
+    tokens = set()
+    for tok in text.split():
+        if tok in _STOPWORDS:
+            continue
+        if len(tok) < 3:
+            continue
+        tokens.add(tok)
+
+    return tokens
 
 
 def context_overlap_score(outputs: List[Dict]) -> float:
     """
-    Measures lexical grounding between answer and retrieved context.
+    Measures lexical grounding between generated answers and retrieved context.
 
     Score = |answer_tokens ∩ context_tokens| / |answer_tokens|
     """
@@ -116,12 +113,16 @@ def context_overlap_score(outputs: List[Dict]) -> float:
         answer = o.get("answer")
         chunks = o.get("chunks", [])
 
+        # Integrity check: grounding requires evidence
+        if answer is not None:
+            assert chunks, "Chunks missing — grounding impossible"
+
         if not answer or not chunks:
             continue
 
-        answer_tokens = set(_normalize(answer))
+        answer_tokens = _normalize(answer)
         context_text = " ".join(c.text for c in chunks)
-        context_tokens = set(_normalize(context_text))
+        context_tokens = _normalize(context_text)
 
         if not answer_tokens:
             continue
@@ -130,3 +131,4 @@ def context_overlap_score(outputs: List[Dict]) -> float:
         scores.append(len(overlap) / len(answer_tokens))
 
     return sum(scores) / len(scores) if scores else 0.0
+
