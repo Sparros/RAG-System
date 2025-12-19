@@ -1,7 +1,7 @@
 # app/api/dependencies.py
 from app.embedding.embedder import Embedder
 from app.vector_store.store import VectorStore
-from app.retrieval.retriever import Retriever
+from app.retrieval.dense_retriever import DenseRetriever
 from app.llm.generator import LLMGenerator
 from app.llm.ollama_client import OllamaClient
 from app.rag.pipeline import RAGPipeline
@@ -39,7 +39,7 @@ def get_rag_pipeline() -> RAGPipeline:
         embedder = get_embedder()
         vector_store = get_vector_store()  # ensures persistence load happens
 
-        retriever = Retriever(embedder=embedder, vector_store=vector_store)
+        retriever = DenseRetriever(embedder=embedder, vector_store=vector_store)
 
         ollama_client = OllamaClient(model="phi3")
         llm_generator = LLMGenerator(client=ollama_client)

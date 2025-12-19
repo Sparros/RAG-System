@@ -20,6 +20,14 @@ class VectorStore:
         """Return number of vectors stored in FAISS."""
         return self.index.ntotal
 
+    @property
+    def chunks(self) -> List[DocumentChunk]:
+        """
+        Return all stored document chunks.
+        Useful for sparse and hybrid retrieval.
+        """
+        return self.metadata_store
+
     def add(self, vectors: np.ndarray, chunks: List[DocumentChunk]):
         """
         Add vectors + associated metadata.

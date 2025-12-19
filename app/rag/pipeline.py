@@ -1,9 +1,20 @@
 # app/rag/pipeline.py
-
-from typing import Dict, Any, Optional
-from app.retrieval.retriever import Retriever
+from typing import Dict, Any, Optional, List, Tuple, Protocol
+from app.models.document_models import DocumentChunk
 from app.llm.generator import LLMGenerator
 from app.retrieval.reranker import CrossEncoderReranker
+
+
+class BaseRetriever(Protocol):
+    """
+    Structural interface for retrievers.
+    Any retriever with a `retrieve()` method matching this signature
+    can be used by the RAGPipeline.
+    """
+    def retrieve(
+        self, query: str, k: int
+    ) -> List[Tuple[float, DocumentChunk]]:
+        ...
 
 
 class RAGPipeline:
@@ -16,7 +27,7 @@ class RAGPipeline:
 
     def __init__(
         self,
-        retriever: Retriever,
+        retriever: BaseRetriever,
         llm_generator: Optional[LLMGenerator] = None,
         reranker: Optional[CrossEncoderReranker] = None,
     ):
@@ -28,7 +39,6 @@ class RAGPipeline:
         """
         Retrieval-only path (used for evaluation).
         """
-        # Over-retrieve if reranking is enabled
         retrieve_k = max(k * 4, 10) if self.reranker else k
 
         retrieved = self.retriever.retrieve(query, k=retrieve_k)

@@ -1,20 +1,11 @@
-Start local llm in one terminal: 
-ollama run phi3
+# Retrieval benchmarking
+python -m evaluation.run_embedding_benchmark --retriever dense
+python -m evaluation.run_embedding_benchmark --retriever bm25
+python -m evaluation.run_embedding_benchmark --retriever hybrid 
 
-(Optional) Start the API server
-Only needed if you want to test the FastAPI endpoints.
-uvicorn app.main:app --reload
+python -m evaluation.run_embedding_benchmark --retriever dense --reranker
+python -m evaluation.run_embedding_benchmark --retriever bm25 --reranker
+python -m evaluation.run_embedding_benchmark --retriever hybrid --reranker
 
-Run retrieval-only embedding benchmarks
-Without reranking:
-python -m evaluation.run_embedding_benchmark
-With reranking:
-python -m evaluation.run_embedding_benchmark --reranker
-
-Run end-to-end RAG evaluation (answer-level)
-Without reranking:
-python -m evaluation.run_rag_eval
-With reranking:
-python -m evaluation.run_rag_eval --reranker
-
+# End-to-end evaluation
 

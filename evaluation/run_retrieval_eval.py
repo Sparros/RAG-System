@@ -1,17 +1,22 @@
+# evaluation/run_retrieval_eval.py
 import json
-from app.api.dependencies import get_embedder, get_vector_store
-from app.retrieval.retriever import Retriever
+from typing import Dict, List
+
+from app.embedding.embedder import Embedder
+from app.vector_store.store import VectorStore
+from app.retrieval.dense_retriever import DenseRetriever
 from app.rag.pipeline import RAGPipeline
 
 
-def load_questions(path):
+def load_questions(path: str) -> List[Dict]:
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
-def evaluate(questions, pipeline, k=5):
+def evaluate(questions: List[Dict], pipeline: RAGPipeline, k: int = 5) -> Dict:
     """
     Evaluate retrieval performance and explicitly track failure cases.
+
     A failure is defined as retrieving ZERO relevant documents in top-k.
     """
     results = []
@@ -60,11 +65,19 @@ def evaluate(questions, pipeline, k=5):
 
 
 if __name__ == "__main__":
-    embedder = get_embedder()
-    vector_store = get_vector_store()
-    retriever = Retriever(embedder, vector_store)
+    # This block is for quick, local debugging only.
+    # The benchmark runner is the primary entry point.
 
-    pipeline = RAGPipeline(retriever=retriever, llm_generator=None)
+    embedder = Embedder("sentence-transformers/all-MiniLM-L6-v2")
+    vector_store = VectorStore(dim=embedder.embedding_dimension)
+    vector_store.load("data/faiss.index", "data/faiss_meta.json")
+
+    retriever = DenseRetriever(embedder, vector_store)
+
+    pipeline = RAGPipeline(
+        retriever=retriever,
+        llm_generator=None,
+    )
 
     single = load_questions("evaluation/questions_single.json")
     cross = load_questions("evaluation/questions_cross.json")

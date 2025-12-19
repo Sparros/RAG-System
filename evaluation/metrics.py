@@ -100,6 +100,17 @@ def _normalize(text: str) -> Set[str]:
 
     return tokens
 
+def _split_sentences(text: str) -> List[str]:
+    """
+    Lightweight sentence splitter.
+    Avoids extra dependencies for reproducibility.
+    """
+    if not text:
+        return []
+
+    # Split on sentence-ending punctuation
+    sentences = re.split(r"[.!?]\s+", text.strip())
+    return [s.strip() for s in sentences if s.strip()]
 
 def context_overlap_score(outputs: List[Dict]) -> float:
     """
@@ -132,3 +143,80 @@ def context_overlap_score(outputs: List[Dict]) -> float:
 
     return sum(scores) / len(scores) if scores else 0.0
 
+def sentence_grounding_rate(outputs: List[Dict], tau: float = 0.3) -> float:
+    """
+    Fraction of answer sentences that are grounded in retrieved context.
+
+    A sentence is considered grounded if:
+      |sentence_tokens ∩ context_tokens| / |sentence_tokens| >= tau
+    """
+    grounded = 0
+    total = 0
+
+    for o in outputs:
+        answer = o.get("answer")
+        chunks = o.get("chunks", [])
+
+        if answer is not None:
+            assert chunks, "Chunks missing — grounding impossible"
+
+        if not answer or not chunks:
+            continue
+
+        context_text = " ".join(c.text for c in chunks)
+        context_tokens = _normalize(context_text)
+
+        sentences = _split_sentences(answer)
+
+        for sent in sentences:
+            sent_tokens = _normalize(sent)
+            if not sent_tokens:
+                continue
+
+            overlap = sent_tokens & context_tokens
+            score = len(overlap) / len(sent_tokens)
+
+            if score >= tau:
+                grounded += 1
+            total += 1
+
+    return grounded / total if total else 0.0
+
+def hallucination_rate(outputs: List[Dict], tau: float = 0.3) -> float:
+    """
+    Fraction of answer sentences that are hallucinated.
+
+    A sentence is hallucinated if:
+      |sentence_tokens ∩ context_tokens| / |sentence_tokens| < tau
+    """
+    hallucinated = 0
+    total = 0
+
+    for o in outputs:
+        answer = o.get("answer")
+        chunks = o.get("chunks", [])
+
+        if answer is not None:
+            assert chunks, "Chunks missing — grounding impossible"
+
+        if not answer or not chunks:
+            continue
+
+        context_text = " ".join(c.text for c in chunks)
+        context_tokens = _normalize(context_text)
+
+        sentences = _split_sentences(answer)
+
+        for sent in sentences:
+            sent_tokens = _normalize(sent)
+            if not sent_tokens:
+                continue
+
+            overlap = sent_tokens & context_tokens
+            score = len(overlap) / len(sent_tokens)
+
+            if score < tau:
+                hallucinated += 1
+            total += 1
+
+    return hallucinated / total if total else 0.0
